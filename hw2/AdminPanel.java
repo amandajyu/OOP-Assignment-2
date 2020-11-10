@@ -116,7 +116,6 @@ public class AdminPanel {
             }
             else if (selectedItem.getValue() instanceof User){
                 User userViewUser = (User) selectedItem.getValue();
-//                new UserView(userViewUser, rootGroup);
                 UserView.openUserView(userViewUser, rootGroup);
             }
         });
@@ -150,8 +149,7 @@ public class AdminPanel {
         positivePercentageButton.setOnAction(actionEvent -> {
             PositivePercentageVisitor positivePercentageVisitor = new PositivePercentageVisitor();
             rootGroup.accept(positivePercentageVisitor);
-            infoAlert.setContentText("The percentage of positive messages is "
-                    + positivePercentageVisitor.getPositivePercentage() + "%");
+            infoAlert.setContentText(String.format("The percentage of positive messages is %.2f%%",  positivePercentageVisitor.getPositivePercentage()));
             infoAlert.showAndWait();
         });
 

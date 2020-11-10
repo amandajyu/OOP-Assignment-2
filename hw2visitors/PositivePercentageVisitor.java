@@ -44,8 +44,8 @@ public class PositivePercentageVisitor implements Visitor {
         if (totalMessagesCount ==0) {
             return positivePercentage;
         }
-        setPositivePercentage((positiveMessageCount/totalMessagesCount)*100);
-        return Math.round(positivePercentage);
+        setPositivePercentage((positiveMessageCount/totalMessagesCount)*100.0);
+        return (positivePercentage);
     }
 
     public void setPositivePercentage(double positivePercentage) {

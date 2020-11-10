@@ -31,6 +31,10 @@ public class UserView {
                 alert.setContentText("This user does not exist!");
                 alert.showAndWait();
             }
+            else if (toFollow == user) {
+                alert.setContentText("You can't follow yourself!");
+                alert.showAndWait();
+            }
             else if (user.getFollowingList().contains(toFollow)){
                 alert.setContentText(user+ " already follows this user!");
                 alert.showAndWait();
@@ -76,7 +80,7 @@ public class UserView {
     public static void openUserView(User user, Group rootGroup){
         UserView thisUserView = new UserView(user, rootGroup);
         VBox mainBox = thisUserView.getMainBox();
-        Scene secondScene = new Scene(mainBox, 500, 500);
+        Scene secondScene = new Scene(mainBox, 400, 500);
         Stage secondStage = new Stage();
         secondStage.setScene(secondScene);
         secondStage.setTitle(user.getID());

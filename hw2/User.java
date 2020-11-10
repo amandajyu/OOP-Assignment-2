@@ -44,7 +44,7 @@ public class User extends Subject implements TreeElement, Observer{
     @Override
     public void update(Subject subject, String message) {
         if (subject instanceof User) {
-            this.newsFeed.add(((User) subject).getID() + " : " + message);
+            this.newsFeedList.add(((User) subject).getID() + " : " + message);
         }
     }
 
