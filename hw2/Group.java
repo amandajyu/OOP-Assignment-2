@@ -6,18 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Group implements TreeElement{
+    private long creationTime;
 
     private String groupID;
     private List<TreeElement> groupMembers = new ArrayList<TreeElement>();
 
     public Group(String newID) {
-        //TODO: check that the ID doesn't already exist
         this.groupID = newID;
+        this.creationTime = System.currentTimeMillis();
+    }
+
+    public long getCreationTime() {
+        return creationTime;
     }
 
     @Override
     public String getID() {
         return this.groupID;
+    }
+
+    public List<TreeElement> getGroupMembers() {
+        return groupMembers;
     }
 
     @Override
@@ -98,4 +107,6 @@ public class Group implements TreeElement{
         }
         return null;
     }
+
+    //return
 }

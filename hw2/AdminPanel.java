@@ -2,17 +2,16 @@ package hw2;
 /*
 AdminPanel is a singleton using the Singleton pattern
 creation of the AdminPanel GUI is in the private constructor
+
+hw 3 #1 starts in line 130
+hw 3 #4 starts in line 148
  */
+import hw2visitors.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import hw2visitors.MessageTotalVisitor;
-import hw2visitors.GroupTotalVisitor;
-import hw2visitors.PositivePercentageVisitor;
-import hw2visitors.UserTotalVisitor;
 
 public class AdminPanel {
 
@@ -110,7 +109,11 @@ public class AdminPanel {
         Button openUserButton = new Button("Open User View");
         openUserButton.setOnAction(actionEvent -> {
             TreeItem<TreeElement> selectedItem = treeView.getSelectionModel().getSelectedItem();
-            if (selectedItem.getValue() instanceof Group){
+            if (selectedItem == null){
+                alert.setContentText("Please select a user to open user view");
+                alert.showAndWait();
+            }
+            else if (selectedItem.getValue() instanceof Group){
                 alert.setContentText("Please select a user to open user view");
                 alert.showAndWait();
             }
@@ -118,6 +121,38 @@ public class AdminPanel {
                 User userViewUser = (User) selectedItem.getValue();
                 UserView.openUserView(userViewUser, rootGroup);
             }
+            else {
+                alert.setContentText("Please select a user to open user view");
+                alert.showAndWait();
+            }
+        });
+
+        //hw 3 # 1
+        //button for validating IDs using a ValidationVisitor
+        Button validationButton = new Button("Validate IDs");
+        validationButton.setOnAction(actionEvent -> {
+            ValidationVisitor validationVisitor = new ValidationVisitor();
+            rootGroup.accept(validationVisitor);
+            //if it returns true
+            if (validationVisitor.getValid()){
+                infoAlert.setContentText("All IDs are valid");
+            }
+            else {
+                infoAlert.setContentText("Not all of the IDs are valid!\n" +
+                        "A user and group might have the same ID\n" +
+                        "or there might be an id with spaces.");
+            }
+            infoAlert.showAndWait();
+        });
+
+        //hw 3 #4
+        //button for displaying the ID of the last updated user
+        Button lastUpdated = new Button("Last Updated User");
+        lastUpdated.setOnAction(actionEvent -> {
+            UpdateVisitor updateVisitor = new UpdateVisitor();
+            rootGroup.accept(updateVisitor);
+            infoAlert.setContentText("The user with the last update was : " + updateVisitor.getLastUpdateUser());
+            infoAlert.showAndWait();
         });
 
         //button for showing total number of users
@@ -159,7 +194,7 @@ public class AdminPanel {
         HBox groupButtonsBox = new HBox(groupField, addGroup);
         HBox showUserGroupBox = new HBox(userTotalButton, groupTotalButton);
         HBox showMessagePositiveBox = new HBox(messageTotalButton, positivePercentageButton);
-        VBox allButtonsBox = new VBox(userButtonsBox, groupButtonsBox, openUserButton, showUserGroupBox, showMessagePositiveBox);
+        VBox allButtonsBox = new VBox(userButtonsBox, groupButtonsBox, openUserButton, validationButton, lastUpdated, showUserGroupBox, showMessagePositiveBox);
         mainBox = new HBox(treeBox, allButtonsBox);
     }
 

@@ -1,7 +1,11 @@
 package hw2;/*
 UserView object with a private constructor that sets up the GUI
 and a public method for getting the GUI container and opening the GUI
+
+hw 3 #2 created a label for creationTime in line 28
+hw 3 #3 gets displayed through the list view on line 73 and was implemented in the User class
  */
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -20,7 +24,10 @@ public class UserView {
 
     private UserView(User user, Group rootGroup){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        Label userName = new Label("User View For: " + user.getID());
+        Label userNameLabel = new Label("User View For: " + user.getID());
+        //hw 3 #2
+        Label creationTimeLabel = new Label("This user's creation time is: " + user.getCreationTime());
+
         TextField userIDField = new TextField();
         userIDField.setPromptText("User ID");
         Button followButton = new Button("Follow User");
@@ -63,6 +70,7 @@ public class UserView {
             tweetField.clear();
         });
 
+        //hw 3 #3 gets displayed through this object
         ListView newsFeedView = new ListView(user.getNewsFeedList());
         newsFeedView.setPrefSize(500, 200);
 
@@ -70,7 +78,7 @@ public class UserView {
         HBox followUserBox = new HBox(userIDField, followButton);
         HBox postTweetBox = new HBox(tweetField, postButton);
         postTweetBox.setAlignment(Pos.BOTTOM_LEFT);
-        mainBox = new VBox(userName, followUserBox, currentFollowingView, postTweetBox, newsFeedView);
+        mainBox = new VBox(userNameLabel, creationTimeLabel, followUserBox, currentFollowingView, postTweetBox, newsFeedView);
     }
 
     public VBox getMainBox(){
